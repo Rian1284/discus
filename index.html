@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discobolus — Rian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --stone: #1a1714;
+    --stone-mid: #242018;
+    --stone-light: #2e2920;
+    --marble: #c8bfaa;
+    --marble-dim: #8a7f6e;
+    --gold: #c9a84c;
+    --gold-dim: #7a6530;
+    --cream: #ede8dc;
+    --red: #8b2020;
+    --gap: 1px solid rgba(201,168,76,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--stone);
+    color: var(--marble);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.03) 0%, transparent 50%);
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(26,23,20,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: var(--gap);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 48px;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 0 14px;
+    height: 48px;
+    line-height: 48px;
+    color: var(--marble-dim);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    border-left: var(--gap);
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    padding: 64px 24px 48px;
+    border-bottom: var(--gap);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 8vw, 80px);
+    font-weight: 300;
+    line-height: 0.95;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--marble-dim);
+    text-transform: uppercase;
+    margin-top: 16px;
+    line-height: 2;
+  }
+
+  .hero-stats {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .stat {
+    display: block;
+    font-size: 11px;
+    color: var(--marble-dim);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .stat strong {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* SECTION HEADER */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 40px 0 20px;
+    border-bottom: var(--gap);
+    margin-bottom: 0;
+  }
+
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--cream);
+  }
+
+  .section-tag {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* DAY CARD */
+  .day-card {
+    border: var(--gap);
+    border-top: none;
+    margin-bottom: 0;
+  }
+
+  .day-header {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 0;
+    background: var(--stone-mid);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .day-header:hover { background: var(--stone-light); }
+
+  .day-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--gold-dim);
+    text-align: center;
+    border-right: var(--gap);
+    padding: 16px 0;
+  }
+
+  .day-info {
+    padding: 16px 20px;
+  }
+
+  .day-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+  }
+
+  .day-muscles {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--marble-dim);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .day-toggle {
+    padding: 16px 20px;
+    font-size: 16px;
+    color: var(--gold-dim);
+    transition: transform 0.3s;
+  }
+
+  .day-toggle.open { transform: rotate(180deg); }
+
+  /* EXERCISES */
+  .exercises {
+    display: none;
+    border-top: var(--gap);
+  }
+
+  .exercises.open { display: block; }
+
+  /* PRIORITY BANNER */
+  .priority-banner {
+    background: rgba(201,168,76,0.06);
+    border-bottom: var(--gap);
+    padding: 10px 20px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  /* EXERCISE ROW */
+  .ex-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 0;
+    border-bottom: var(--gap);
+    align-items: start;
+    transition: background 0.15s;
+  }
+
+  .ex-row:last-child { border-bottom: none; }
+  .ex-row:hover { background: rgba(255,255,255,0.02); }
+
+  .ex-num {
+    padding: 14px 0;
+    text-align: center;
+    font-size: 10px;
+    color: var(--gold-dim);
+    border-right: var(--gap);
+    align-self: stretch;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 15px;
+  }
+
+  .ex-body {
+    padding: 12px 16px;
+  }
+
+  .ex-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .ex-name .key-badge {
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
+    padding: 2px 6px;
+    text-transform: uppercase;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .ex-name .fix-badge {
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    background: rgba(139,32,32,0.15);
+    color: #c06060;
+    padding: 2px 6px;
+    text-transform: uppercase;
+    border: 1px solid rgba(139,32,32,0.25);
+  }
+
+  .ex-target {
+    font-size: 10px;
+    color: var(--marble-dim);
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+
+  .ex-cue {
+    font-size: 11px;
+    color: var(--marble-dim);
+    margin-top: 6px;
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 480px;
+  }
+
+  .ex-sets {
+    padding: 12px 16px 12px 0;
+    text-align: right;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sets-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cream);
+    font-weight: 400;
+  }
+
+  .sets-note {
+    font-size: 10px;
+    color: var(--marble-dim);
+    margin-top: 2px;
+  }
+
+  /* FINISHER */
+  .finisher-head {
+    background: rgba(139,32,32,0.08);
+    border-top: 1px solid rgba(139,32,32,0.2);
+    border-bottom: var(--gap);
+    padding: 10px 20px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #c06060;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .finisher-head::before {
+    content: '▲';
+    font-size: 8px;
+  }
+
+  /* REST DAY */
+  .rest-row {
+    padding: 20px 20px;
+    font-size: 11px;
+    color: var(--marble-dim);
+    letter-spacing: 0.06em;
+    font-style: italic;
+    border-top: var(--gap);
+  }
+
+  /* GTG SECTION */
+  .gtg-box {
+    border: var(--gap);
+    margin-top: 40px;
+    background: var(--stone-mid);
+  }
+
+  .gtg-head {
+    padding: 16px 20px;
+    border-bottom: var(--gap);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .gtg-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--cream);
+    font-weight: 300;
+  }
+
+  .gtg-tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  .gtg-body {
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .gtg-item {
+    border-left: 2px solid var(--gold-dim);
+    padding-left: 12px;
+  }
+
+  .gtg-item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--cream);
+  }
+
+  .gtg-item-desc {
+    font-size: 11px;
+    color: var(--marble-dim);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* TARGETS */
+  .targets-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.1);
+    border: var(--gap);
+    margin-top: 40px;
+  }
+
+  .target-cell {
+    background: var(--stone);
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .target-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--gold);
+    display: block;
+  }
+
+  .target-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--marble-dim);
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* NUTRITION */
+  .nutrition-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(201,168,76,0.1);
+    border: var(--gap);
+    margin-top: 16px;
+  }
+
+  .meal-cell {
+    background: var(--stone);
+    padding: 16px;
+  }
+
+  .meal-time {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .meal-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.5;
+  }
+
+  .meal-protein {
+    font-size: 11px;
+    color: var(--marble-dim);
+    margin-top: 4px;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    margin-top: 16px;
+    border: var(--gap);
+  }
+
+  .tl-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    border-bottom: var(--gap);
+  }
+
+  .tl-row:last-child { border-bottom: none; }
+
+  .tl-month {
+    padding: 16px;
+    border-right: var(--gap);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--gold-dim);
+    text-align: center;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tl-content {
+    padding: 14px 16px;
+  }
+
+  .tl-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+
+  .tl-desc {
+    font-size: 11px;
+    color: var(--marble-dim);
+    line-height: 1.5;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: var(--gap);
+    padding: 24px;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 40px 16px 32px; }
+    .hero-stats { text-align: left; display: flex; gap: 24px; }
+    main { padding: 0 16px 60px; }
+    .day-header { grid-template-columns: 48px 1fr auto; }
+    .targets-grid { grid-template-columns: repeat(2, 1fr); }
+    .nutrition-grid { grid-template-columns: 1fr; }
+    .gtg-body { grid-template-columns: 1fr; }
+    .ex-row { grid-template-columns: 24px 1fr; }
+    .ex-sets { display: none; }
+    .ex-body { padding-right: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Discobolus</span>
+  <ul class="nav-links">
+    <li><a href="#programme">Programme</a></li>
+    <li><a href="#gtg">GTG</a></li>
+    <li><a href="#targets">Targets</a></li>
+    <li><a href="#nutrition">Nutrition</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div>
+    <h1 class="hero-title">Disco<em>bolus</em></h1>
+    <p class="hero-sub">
+      Myron's symmetria · Toji's V-taper · 12 months<br>
+      Rian · Home Training · Pull-up Bar + 2×5kg DB
+    </p>
+  </div>
+  <div class="hero-stats">
+    <span class="stat"><strong>175</strong>cm</span>
+    <span class="stat"><strong>64</strong>kg</span>
+    <span class="stat"><strong>φ 1.618</strong>target</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- PROGRAMME -->
+  <div id="programme">
+    <div class="section-head">
+      <span class="section-label">Weekly Programme</span>
+      <span class="section-tag">Mon · Wed · Fri</span>
+    </div>
+
+    <!-- MONDAY — PUSH -->
+    <div class="day-card">
+      <div class="day-header" onclick="toggle('push')">
+        <div class="day-num">1</div>
+        <div class="day-info">
+          <div class="day-name">Push</div>
+          <div class="day-muscles">Chest · Shoulders · Triceps · Serratus</div>
+        </div>
+        <div class="day-toggle" id="push-toggle">▼</div>
+      </div>
+      <div class="exercises" id="push">
+        <div class="priority-banner">⬆ Priority block — do these first, full effort</div>
+
+        <div class="ex-row">
+          <div class="ex-num">1</div>
+          <div class="ex-body">
+            <div class="ex-name">Feet-Elevated Push-up <span class="fix-badge">chest fix</span> <span class="key-badge">priority</span></div>
+            <div class="ex-target">Upper chest, anterior delts — corrects low pec dominance</div>
+            <div class="ex-cue">Feet on bed or chair — the higher the feet, the more upper chest. 3s negative. Squeeze hard at top. This is now your primary chest movement.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">5 × 8–12</div>
+            <div class="sets-note">3s down</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">2</div>
+          <div class="ex-body">
+            <div class="ex-name">Pseudo Planche Push-up <span class="key-badge">key</span></div>
+            <div class="ex-target">Chest, anterior delts, triceps, serratus</div>
+            <div class="ex-cue">Lean forward, fingers pointing back slightly. Protract at top to hit serratus. Full lock-out.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 8–12</div>
+            <div class="sets-note">controlled</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Lateral Raise — Heavy <span class="key-badge">key</span></div>
+            <div class="ex-target">Medial deltoid — V-taper foundation</div>
+            <div class="ex-cue">Single-arm if 5kg is too heavy to control. Slight forward lean (20°). Lead with elbows NOT wrists. 1s hold at top, 3s down. This is your heaviest lateral raise of the week.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 10–12</div>
+            <div class="sets-note">strict form</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">4</div>
+          <div class="ex-body">
+            <div class="ex-name">Lateral Raise — High Rep Drop</div>
+            <div class="ex-target">Medial deltoid — metabolic stress</div>
+            <div class="ex-cue">Immediately after heavy sets. Reduce range to 60–70° if needed. Both dumbbells. Pure burn.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 18–25</div>
+            <div class="sets-note">no rest from set 3</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">5</div>
+          <div class="ex-body">
+            <div class="ex-name">Pike Push-up</div>
+            <div class="ex-target">Overhead pressing, anterior delts</div>
+            <div class="ex-cue">Hips high, head through arms at bottom. Progress to wall HSPU over time.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 8–12</div>
+            <div class="sets-note"></div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">6</div>
+          <div class="ex-body">
+            <div class="ex-name">Bed Frame Dip</div>
+            <div class="ex-target">Triceps, lower chest</div>
+            <div class="ex-cue">Torso upright for tricep focus. Only lean forward slightly — lower chest is already your dominant zone, don't feed it more.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 10–15</div>
+            <div class="sets-note">upright torso</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">7</div>
+          <div class="ex-body">
+            <div class="ex-name">DB Floor Press</div>
+            <div class="ex-target">Chest, triceps — loaded pressing</div>
+            <div class="ex-cue">Lie flat. 1s pause at chest. 3s down. Builds pressing strength.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 10–15</div>
+            <div class="sets-note"></div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">8</div>
+          <div class="ex-body">
+            <div class="ex-name">Serratus Punch</div>
+            <div class="ex-target">Serratus anterior — frames the abs laterally</div>
+            <div class="ex-cue">From push-up top: push further forward rounding upper back, shoulder blades apart. Hold 2s. The muscle that makes abs look carved.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 12–15</div>
+            <div class="sets-note">2s hold</div>
+          </div>
+        </div>
+
+        <div class="finisher-head">Finisher — 10 min · 30–45s rest only</div>
+
+        <div class="ex-row">
+          <div class="ex-num">F1</div>
+          <div class="ex-body">
+            <div class="ex-name">Diamond Push-up</div>
+            <div class="ex-target">Triceps mass, inner chest</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 15–20</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">F2</div>
+          <div class="ex-body">
+            <div class="ex-name">Lateral Raise (very light)</div>
+            <div class="ex-target">Final medial delt pump</div>
+            <div class="ex-cue">Minimal weight. Full squeeze. Slow.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 20–25</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">F3</div>
+          <div class="ex-body">
+            <div class="ex-name">Wide Push-up Isometric Hold</div>
+            <div class="ex-target">Mid-chest, serratus, stability</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 30s</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REST -->
+    <div class="day-card">
+      <div class="day-header" style="cursor:default;">
+        <div class="day-num" style="color:var(--stone-light); font-size:20px;">—</div>
+        <div class="day-info">
+          <div class="day-name" style="color:var(--marble-dim)">Rest</div>
+          <div class="day-muscles">Stretch · Walk · GTG optional</div>
+        </div>
+        <div class="day-toggle" style="opacity:0;">▼</div>
+      </div>
+    </div>
+
+    <!-- WEDNESDAY — PULL -->
+    <div class="day-card">
+      <div class="day-header" onclick="toggle('pull')">
+        <div class="day-num">2</div>
+        <div class="day-info">
+          <div class="day-name">Pull</div>
+          <div class="day-muscles">Back · Biceps · Rear Delts · Traps</div>
+        </div>
+        <div class="day-toggle" id="pull-toggle">▼</div>
+      </div>
+      <div class="exercises" id="pull">
+        <div class="priority-banner">⬆ Priority block — negatives first, every session</div>
+
+        <div class="ex-row">
+          <div class="ex-num">1</div>
+          <div class="ex-body">
+            <div class="ex-name">Pull-up Negative <span class="fix-badge">pull-up fix</span> <span class="key-badge">priority</span></div>
+            <div class="ex-target">Lats, biceps — building to first full pull-up</div>
+            <div class="ex-cue">Jump to top, chin over bar. Lower in exactly 5 seconds. Do NOT rush the descent. This is how you get your first pull-up. Every session, before anything else.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">5 × 3–5</div>
+            <div class="sets-note">5s descent</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">2</div>
+          <div class="ex-body">
+            <div class="ex-name">Dead Hang</div>
+            <div class="ex-target">Grip, shoulder health, body weight tolerance</div>
+            <div class="ex-cue">Hang as long as possible. Builds the foundation. Do between negative sets.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × max</div>
+            <div class="sets-note">between negatives</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Inverted Row <span class="key-badge">key</span></div>
+            <div class="ex-target">Mid-back, rhomboids, posterior delts</div>
+            <div class="ex-cue">Body straight as a plank. Pull chest to bar. Squeeze shoulder blades together and hold 1s at top. Your primary horizontal pull while building to full pull-ups.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 12–15</div>
+            <div class="sets-note">1s squeeze</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">4</div>
+          <div class="ex-body">
+            <div class="ex-name">DB Single-Arm Row</div>
+            <div class="ex-target">Lat thickness, mid-back</div>
+            <div class="ex-cue">Brace on bed. Full stretch at bottom. Drive elbow to hip — not ceiling. 3s down.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 10–12</div>
+            <div class="sets-note">each side</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">5</div>
+          <div class="ex-body">
+            <div class="ex-name">Scapular Pull-up</div>
+            <div class="ex-target">Scapula control — the "pre-pull"</div>
+            <div class="ex-cue">Dead hang. Depress and retract shoulder blades only. Arms stay straight. Body rises 3–5cm. This is the full movement — don't try to pull with arms.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 10</div>
+            <div class="sets-note">arms straight</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">6</div>
+          <div class="ex-body">
+            <div class="ex-name">DB Rear Delt Fly</div>
+            <div class="ex-target">Posterior deltoid — 3D shoulder depth</div>
+            <div class="ex-cue">Hinge 45° forward. Slight elbow bend — never straight. Lead with elbows to shoulder height. Pinch at top. Small muscle — don't ego-lift.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 15–20</div>
+            <div class="sets-note">both 5kg DB</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">7</div>
+          <div class="ex-body">
+            <div class="ex-name">DB Shrug</div>
+            <div class="ex-target">Upper trapezius — neck-trap column</div>
+            <div class="ex-cue">Shrug straight UP. Hold 1s at top. Full stretch at bottom. Builds the imposing front silhouette.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 15–20</div>
+            <div class="sets-note">1s hold</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">8</div>
+          <div class="ex-body">
+            <div class="ex-name">DB Bicep Curl</div>
+            <div class="ex-target">Bicep isolation — arm density</div>
+            <div class="ex-cue">Alternating. Full supination at top. 3s negative. No swinging.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 12–15</div>
+            <div class="sets-note">3s down</div>
+          </div>
+        </div>
+
+        <div class="finisher-head">Finisher — 10 min · 30–45s rest only</div>
+
+        <div class="ex-row">
+          <div class="ex-num">F1</div>
+          <div class="ex-body">
+            <div class="ex-name">Lateral Raise (light)</div>
+            <div class="ex-target">Second delt session of the week</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 15–20</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">F2</div>
+          <div class="ex-body">
+            <div class="ex-name">Hammer Curl</div>
+            <div class="ex-target">Brachialis — arm thickness from the side</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 12–15</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">F3</div>
+          <div class="ex-body">
+            <div class="ex-name">Face-Pull (towel over door)</div>
+            <div class="ex-target">Rear delt + external rotation</div>
+            <div class="ex-cue">Loop towel over door handle. Lean back. Pull to face, elbows high. Shoulder longevity.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 15–20</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REST -->
+    <div class="day-card">
+      <div class="day-header" style="cursor:default;">
+        <div class="day-num" style="color:var(--stone-light); font-size:20px;">—</div>
+        <div class="day-info">
+          <div class="day-name" style="color:var(--marble-dim)">Rest</div>
+          <div class="day-muscles">Stretch · Walk · GTG optional</div>
+        </div>
+        <div class="day-toggle" style="opacity:0;">▼</div>
+      </div>
+    </div>
+
+    <!-- FRIDAY — LEGS -->
+    <div class="day-card">
+      <div class="day-header" onclick="toggle('legs')">
+        <div class="day-num">3</div>
+        <div class="day-info">
+          <div class="day-name">Legs + Core</div>
+          <div class="day-muscles">Lower Body · Abs · Rear Delt · Upper Chest bonus</div>
+        </div>
+        <div class="day-toggle" id="legs-toggle">▼</div>
+      </div>
+      <div class="exercises" id="legs">
+        <div class="priority-banner">⬆ Feet-elevated push-ups open this session — chest gets two hits per week</div>
+
+        <div class="ex-row">
+          <div class="ex-num">0</div>
+          <div class="ex-body">
+            <div class="ex-name">Feet-Elevated Push-up <span class="fix-badge">chest fix</span></div>
+            <div class="ex-target">Upper chest — second hit of the week</div>
+            <div class="ex-cue">3–4 sets before legs. This is the second push stimulus your upper chest needs. Don't skip it, don't move it to the end.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 8–12</div>
+            <div class="sets-note">opens session</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">1</div>
+          <div class="ex-body">
+            <div class="ex-name">Bulgarian Split Squat <span class="key-badge">key</span></div>
+            <div class="ex-target">Quads, glutes — primary leg hypertrophy</div>
+            <div class="ex-cue">Hold both dumbbells. Rear foot on bed. Knee tracks over toe. Full depth. Toji's legs are actually trained — don't skip this.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 10–12</div>
+            <div class="sets-note">each leg</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">2</div>
+          <div class="ex-body">
+            <div class="ex-name">Romanian Deadlift</div>
+            <div class="ex-target">Hamstrings, glutes, lower back</div>
+            <div class="ex-cue">Hinge at hips, soft knee. Chase the hamstring stretch. Drive hips forward to stand. 3s down.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 10–12</div>
+            <div class="sets-note">3s down</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">3</div>
+          <div class="ex-body">
+            <div class="ex-name">Hip Thrust (shoulders on bed)</div>
+            <div class="ex-target">Glutes, hamstrings — posterior chain</div>
+            <div class="ex-cue">Dumbbells on hips. Squeeze hard at top. 1s pause. Full range of hip extension.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 15–20</div>
+            <div class="sets-note">1s pause</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">4</div>
+          <div class="ex-body">
+            <div class="ex-name">Hanging Knee Raise → Leg Raise</div>
+            <div class="ex-target">Lower abs, hip flexors</div>
+            <div class="ex-cue">Start with knees bent, progress to straight legs over weeks. Control the descent — no swinging. Visible lower abs are built here.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">4 × 12–15</div>
+            <div class="sets-note">no swing</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">5</div>
+          <div class="ex-body">
+            <div class="ex-name">Dragon Flag Negative <span class="key-badge">key</span></div>
+            <div class="ex-target">Full core — the Toji signature</div>
+            <div class="ex-cue">Grip bed frame behind head. Lower in exactly 5s. Pull back up. Best single exercise for the abs-serratus combination.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 4–5</div>
+            <div class="sets-note">5s descent</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">6</div>
+          <div class="ex-body">
+            <div class="ex-name">Hollow Body Hold</div>
+            <div class="ex-target">Anterior core — foundational tension</div>
+            <div class="ex-cue">Lower back pressed flat. Arms overhead. Legs low but not touching. Same bracing pattern as the Discobolus throw.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 30–45s</div>
+            <div class="sets-note"></div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">7</div>
+          <div class="ex-body">
+            <div class="ex-name">DB Rear Delt Fly</div>
+            <div class="ex-target">Posterior deltoid — third session this week</div>
+            <div class="ex-cue">Rear delts recover fast. Three hits per week is evidence-based for small muscles. Keep weight light, focus on contraction.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 15–20</div>
+            <div class="sets-note">light, controlled</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">8</div>
+          <div class="ex-body">
+            <div class="ex-name">Lateral Raise (third session)</div>
+            <div class="ex-target">Medial deltoid — weekly volume accumulation</div>
+            <div class="ex-cue">Lighter weight. Third and final lateral raise session of the week. Mind-muscle only. Goal is 12–16 working sets total across the week.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 15–20</div>
+            <div class="sets-note">light</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">9</div>
+          <div class="ex-body">
+            <div class="ex-name">Single-Leg Calf Raise</div>
+            <div class="ex-target">Gastrocnemius — full lower leg</div>
+            <div class="ex-cue">Full range — all the way up, all the way down. Slow. Hold dumbbell for added load.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 20</div>
+            <div class="sets-note">each leg</div>
+          </div>
+        </div>
+
+        <div class="finisher-head">Finisher — 10 min · 30–45s rest only</div>
+
+        <div class="ex-row">
+          <div class="ex-num">F1</div>
+          <div class="ex-body">
+            <div class="ex-name">Superman Hold</div>
+            <div class="ex-target">Lower back, glutes</div>
+            <div class="ex-cue">Hold 2s at top each rep.</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 15</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">F2</div>
+          <div class="ex-body">
+            <div class="ex-name">Lateral Raise — Final Burn</div>
+            <div class="ex-target">Pure pump, cap the week's delt volume</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">2 × 25–30</div>
+          </div>
+        </div>
+
+        <div class="ex-row">
+          <div class="ex-num">F3</div>
+          <div class="ex-body">
+            <div class="ex-name">Plank Hold</div>
+            <div class="ex-target">Full-body tension — anterior core + posterior chain</div>
+          </div>
+          <div class="ex-sets">
+            <div class="sets-main">3 × 45–60s</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GTG -->
+  <div id="gtg">
+    <div class="section-head">
+      <span class="section-label">Greasing the Groove</span>
+      <span class="section-tag">Every day · Non-negotiable</span>
+    </div>
+
+    <div class="gtg-box">
+      <div class="gtg-head">
+        <span class="gtg-title">Every time you walk past the bar</span>
+        <span class="gtg-tag">Never to failure · 50% max</span>
+      </div>
+      <div class="gtg-body">
+        <div class="gtg-item">
+          <div class="gtg-item-title">Pull-up Negative × 2–3</div>
+          <div class="gtg-item-desc">You cannot do a pull-up yet. So GTG is negatives — jump to top, lower in 5s, walk away. 6–8 times per day. This is how you get your first pull-up within 6–10 weeks.</div>
+        </div>
+        <div class="gtg-item">
+          <div class="gtg-item-title">Dead Hang × 20–30s</div>
+          <div class="gtg-item-desc">Between or instead of negatives. Builds grip and shoulder joint tolerance. Don't skip this.</div>
+        </div>
+        <div class="gtg-item">
+          <div class="gtg-item-title">Lateral Raise × 10 (rest days)</div>
+          <div class="gtg-item-desc">Very light. On non-training days only. Sub-threshold — never to failure. Adds cumulative delt volume without recovery cost.</div>
+        </div>
+        <div class="gtg-item">
+          <div class="gtg-item-title">Switch to full pull-ups when ready</div>
+          <div class="gtg-item-desc">Once you can do 1 clean pull-up, replace negatives with 1–2 full reps each pass. This compounds to 15+ reps/day without touching recovery.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARGETS -->
+  <div id="targets">
+    <div class="section-head">
+      <span class="section-label">Proportion Targets</span>
+      <span class="section-tag">Adonis Index φ 1.618 · Check every 4 weeks</span>
+    </div>
+
+    <div class="targets-grid">
+      <div class="target-cell">
+        <span class="target-val">~120cm</span>
+        <span class="target-label">Shoulder width</span>
+      </div>
+      <div class="target-cell">
+        <span class="target-val">~74cm</span>
+        <span class="target-label">Waist</span>
+      </div>
+      <div class="target-cell">
+        <span class="target-val">φ 1.618</span>
+        <span class="target-label">Shoulder ÷ Waist</span>
+      </div>
+      <div class="target-cell">
+        <span class="target-val">10–13%</span>
+        <span class="target-label">Body fat</span>
+      </div>
+      <div class="target-cell">
+        <span class="target-val">~100cm</span>
+        <span class="target-label">Chest (full upper)</span>
+      </div>
+      <div class="target-cell">
+        <span class="target-val">37–38cm</span>
+        <span class="target-label">Arms flexed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div id="nutrition">
+    <div class="section-head">
+      <span class="section-label">Nutrition</span>
+      <span class="section-tag">140g+ protein daily · Non-negotiable</span>
+    </div>
+
+    <div class="nutrition-grid">
+      <div class="meal-cell">
+        <div class="meal-time">Breakfast</div>
+        <div class="meal-desc">3 dim bhaji + 2 ruti</div>
+        <div class="meal-protein">~25g protein · Within 1hr of waking</div>
+      </div>
+      <div class="meal-cell">
+        <div class="meal-time">Lunch</div>
+        <div class="meal-desc">2 pieces rohu/catla + dal + bhaat</div>
+        <div class="meal-protein">~45g protein</div>
+      </div>
+      <div class="meal-cell">
+        <div class="meal-time">Snack</div>
+        <div class="meal-desc">Glass of dudh or extra dim</div>
+        <div class="meal-protein">~15g protein</div>
+      </div>
+      <div class="meal-cell">
+        <div class="meal-time">Dinner</div>
+        <div class="meal-desc">Chicken curry + dal + ruti</div>
+        <div class="meal-protein">~50g protein</div>
+      </div>
+      <div class="meal-cell" style="grid-column: span 2; background: rgba(201,168,76,0.04);">
+        <div class="meal-time">Post-workout (training days only)</div>
+        <div class="meal-desc">One extra protein source within 45 min — extra egg, fish, or glass of milk</div>
+        <div class="meal-protein">~135–150g daily total</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div id="timeline">
+    <div class="section-head">
+      <span class="section-label">Timeline</span>
+      <span class="section-tag">Your clock starts now</span>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-month">1</div>
+        <div class="tl-content">
+          <div class="tl-title">Foundation</div>
+          <div class="tl-desc">Work capacity building. Can't finish all sets — that's normal. Negative pull-ups daily via GTG. Lateral raise form locked. Feet-elevated push-ups introduced. First pull-up incoming.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-month">2</div>
+        <div class="tl-content">
+          <div class="tl-title">First Pull-up</div>
+          <div class="tl-desc">First full pull-up achieved. Shoulder caps beginning to show. Upper chest starting to respond. Completing full sessions. Upper back visibly thicker.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-month">3</div>
+        <div class="tl-content">
+          <div class="tl-title">People Notice</div>
+          <div class="tl-desc">8–10 pull-ups. Shoulder width clearly broader. Chest shape improving — high pec filling in. Obliques and serratus visible when flexed. V-shape undeniable in fitted shirts.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-month">6</div>
+        <div class="tl-content">
+          <div class="tl-title">Undeniable</div>
+          <div class="tl-desc">15 pull-ups. Dragon flag. Full six-pack. Capped 3D delts. Lat flare when walking. Upper chest full and balanced. The compression shirt hangs differently now.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-month">12</div>
+        <div class="tl-content">
+          <div class="tl-title">Convergence</div>
+          <div class="tl-desc">Myron's symmetria. Toji's V-taper. Golden ratio shoulder-to-waist achieved. Visible from every angle. The body Myron would have sculpted if he'd seen a gym.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Discobolus · Rian · 175cm · 64kg · Version 3.0 · Home Training Only
+</footer>
+
+<script>
+  function toggle(id) {
+    const el = document.getElementById(id);
+    const tog = document.getElementById(id + '-toggle');
+    const isOpen = el.classList.contains('open');
+    el.classList.toggle('open', !isOpen);
+    tog.classList.toggle('open', !isOpen);
+  }
+
+  // Auto-open today's session
+  const day = new Date().getDay(); // 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
+  if (day === 1) toggle('push');
+  else if (day === 3) toggle('pull');
+  else if (day === 5) toggle('legs');
+</script>
+
+</body>
+</html>
